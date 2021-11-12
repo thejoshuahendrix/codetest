@@ -87,7 +87,7 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
     }
   }
 
-  //Get and Display our highest 
+  //Get and Display our max profit and what buy and sell days to make that profit
   let maxProfit = highestDay - lowestDay;
   let dayToBuy = cleanData[lowestDayIndex].Date;
   let dayToSell = cleanData[highestDayIndex].Date;
