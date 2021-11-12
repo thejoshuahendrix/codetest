@@ -105,8 +105,7 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
 
   //Add our data to the dataset with our answers at the top
   rawData =
-    `
-  \nVolume for July: ${volumeForJuly}
+  `\nVolume for July: ${volumeForJuly}
   \nAverage for July: ${averageForJuly}
   \n${maxDifferenceForOneDay(cleanData)}
   \n${maxProfit(cleanData)} \n\n\n` + data;
