@@ -1,6 +1,5 @@
 # codetest
-A code test I took for a React Developer position.
-It takes in financial data and returns several data points.
+A Node JS application that parses financial data and gives back key data points.
 
 It returns
 
