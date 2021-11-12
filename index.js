@@ -38,16 +38,8 @@ const datFileToArray = (str, delimiter = "\t") => {
 };
 
 //Define a variable for our parsed data then grab the data and parse it.
-
 fs.readFile("datafile.dat", "utf8", (err, data) => {
   if (err) throw err;
-  fs.writeFile("outputData.txt", data, (err) => {
-    // Throws an error, you could also catch it here
-    if (err) throw err;
-
-    // Success case, the file was saved!
-    console.log("Saved to outside file!");
-  });
   let cleanData = datFileToArray(data);
 
   //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
@@ -57,12 +49,13 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
       volumeForJuly += +cleanData[i].Volume;
     }
   }
-  console.log("Volume for July: " + volumeForJuly);
+  console.log(`Volume for July: ${volumeForJuly}`);
 
   //Find the average by dividing the volumeForJuly by 31
   let average = volumeForJuly / 31;
-  console.log("Average for July: " + average);
+  console.log(`Average for July: ${average}`);
 
+  //Define our maxDifference and find it by taking the high minus the low
   let maxDif = 0;
   let maxDifIndex = 0;
   for (let i = 0; i < cleanData.length; i++) {
@@ -76,6 +69,7 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
     `Max difference for one day: ${maxDif} on ${cleanData[maxDifIndex].Date}`
   );
 
+  //Define our highest and lowest day and indicies
   let highestDay = 0;
   let highestDayIndex = 0;
 
@@ -93,10 +87,31 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
     }
   }
 
+  //Get and Display to
   let maxProfit = highestDay - lowestDay;
   let dayToBuy = cleanData[lowestDayIndex].Date;
-  console.log(`Buy on ${dayToBuy} for ${maxProfit}`);
-
+  console.log(`Buy on ${dayToBuy} for a max profit of ${maxProfit}`);
+  
+  
+  
+  //Add our data to the dataset with our answers at the top
+  
+  rawData = `
+  \nVolume for July: ${volumeForJuly}
+  \nAverage for July: ${average}
+  \nMax difference for one day: ${maxDif} on ${cleanData[maxDifIndex].Date}
+  \nBuy on ${dayToBuy} for a max profit of ${maxProfit} \n\n\n` + data;
+  
+  
   //Write to a new file named outputData.txt
   
+  
+  fs.writeFile("outputData.txt", rawData, (err) => {
+    // Throws an error, you could also catch it here
+    if (err) throw err;
+
+    // Success case, the file was saved!
+    console.log("Saved to outside file!");
+  });
 });
+
