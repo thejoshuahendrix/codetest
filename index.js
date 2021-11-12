@@ -47,6 +47,18 @@ const totalVolumeForDates = (data, dateParser) => {
   return volumeForDates;
 };
 
+
+
+const tradingDaysByDate = (data, dateParser) => {
+  let counter = 0
+  for (let i = 0; i< data.length; i++){
+    if(data[i].Date.includes(dateParser))
+    {
+      counter++
+    }
+  }
+  return counter;
+}
 //Define a function to find the max difference on one day
 const maxDifferenceForOneDay = (data) => {
   let maxDif = 0;
@@ -93,8 +105,9 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
   //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
   let volumeForJuly = totalVolumeForDates(cleanData, "Jul-12");
 
-  //Find the average by dividing the volumeForJuly by 31 and log it
-  let averageForJuly = (volumeForJuly / 31).toFixed(2);
+  //Find the average by dividing the volumeForJuly by the amount of trading days and log it
+  let tradingDays = tradingDaysByDate(cleanData,"Jul-12");;
+  let averageForJuly = (volumeForJuly / tradingDays).toFixed(2);
   console.log(`Average for July: ${averageForJuly}`);
 
   //Log our maxDifferenceForOneDay
