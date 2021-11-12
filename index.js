@@ -48,7 +48,7 @@ const totalVolumeForDates = (data, dateParser) => {
 };
 
 
-
+//Define function to find amount of trading days by given date parse string
 const tradingDaysByDate = (data, dateParser) => {
   let counter = 0
   for (let i = 0; i< data.length; i++){
