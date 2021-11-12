@@ -3,7 +3,6 @@
 const fs = require("fs");
 
 //Define a function to parse the data
-
 const datFileToArray = (str, delimiter = "\t") => {
   // slice from start of text to the first \n index
   // use split to create an array from string by delimiter
@@ -37,72 +36,80 @@ const datFileToArray = (str, delimiter = "\t") => {
   return arr;
 };
 
-//Define a variable for our parsed data then grab the data and parse it.
-fs.readFile("datafile.dat", "utf8", (err, data) => {
-  if (err) throw err;
-  let cleanData = datFileToArray(data);
-
-  //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
-  let volumeForJuly = 0;
-  for (let i = 0; i < cleanData.length; i++) {
-    if (cleanData[i].Date.includes("Jul-12")) {
-      volumeForJuly += +cleanData[i].Volume;
+//Define a function to find total volume of a period of time
+const totalVolume = (data, dateParser) => {
+  let volumeForMonth = 0;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].Date.includes(dateParser)) {
+      volumeForMonth += +data[i].Volume;
     }
   }
-  console.log(`Volume for July: ${volumeForJuly}`);
+  return volumeForMonth;
+};
 
-  //Find the average by dividing the volumeForJuly by 31
-  let average = volumeForJuly / 31;
-  console.log(`Average for July: ${average}`);
-
-  //Define our maxDifference and find it by taking the high minus the low
+//Define a function to find the max difference on one day
+const maxDifferenceForOneDay = (data) => {
   let maxDif = 0;
   let maxDifIndex = 0;
-  for (let i = 0; i < cleanData.length; i++) {
-    let currentDayDifference = cleanData[i].High - cleanData[i].Low;
+  for (let i = 0; i < data.length; i++) {
+    let currentDayDifference = data[i].High - data[i].Low;
     if (currentDayDifference > maxDif) {
       maxDif = currentDayDifference;
       maxDifIndex = i;
     }
   }
-  console.log(
-    `Max difference for one day: ${maxDif} on ${cleanData[maxDifIndex].Date}`
-  );
-
-  //Define our highest and lowest day and indicies
+  return `Max difference for one day: ${maxDif} on ${data[maxDifIndex].Date}`;
+};
+//Define a function to find max profit and days to buy and sell
+const maxProfit = (data) => {
   let highestDay = 0;
   let highestDayIndex = 0;
 
   let lowestDay = 10000;
   let lowestDayIndex = 0;
 
-  for (let i = 0; i < cleanData.length; i++) {
-    if (cleanData[i].High > highestDay) {
-      highestDay = cleanData[i].High;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].High > highestDay) {
+      highestDay = data[i].High;
       highestDayIndex = i;
     }
-    if (cleanData[i].Low < lowestDay) {
-      lowestDay = cleanData[i].Low;
+    if (data[i].Low < lowestDay) {
+      lowestDay = data[i].Low;
       lowestDayIndex = i;
     }
   }
-
   //Get and Display our max profit and what buy and sell days to make that profit
-  let maxProfit = highestDay - lowestDay;
-  let dayToBuy = cleanData[lowestDayIndex].Date;
-  let dayToSell = cleanData[highestDayIndex].Date;
-  console.log(
-    `Buy on ${dayToBuy} and sell on ${dayToSell} for a max profit of ${maxProfit}`
-  );
+  let profit = highestDay - lowestDay;
+  let dayToBuy = data[lowestDayIndex].Date;
+  let dayToSell = data[highestDayIndex].Date;
+  return `Buy on ${dayToBuy} and sell on ${dayToSell} for a max profit of ${profit}`;
+};
+
+//Define a variable for our parsed data then grab the data and parse it.
+fs.readFile("datafile.dat", "utf8", (err, data) => {
+  if (err) throw err;
+  let cleanData = datFileToArray(data);
+
+  //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
+  let volumeForJuly = totalVolume(cleanData, "Jul-12");
+
+  //Find the average by dividing the volumeFor July by 31 and log it
+  let averageForJuly = volumeForJuly / 31;
+  console.log(`Average for July: ${averageForJuly}`);
+
+  //Log our maxDifferenceForOneDay
+  console.log(maxDifferenceForOneDay(cleanData));
+
+  //Log our maxProfit function
+  console.log(maxProfit(cleanData));
 
   //Add our data to the dataset with our answers at the top
-
   rawData =
     `
   \nVolume for July: ${volumeForJuly}
-  \nAverage for July: ${average}
-  \nMax difference for one day: ${maxDif} on ${cleanData[maxDifIndex].Date}
-  \nBuy on ${dayToBuy} for a max profit of ${maxProfit} \n\n\n` + data;
+  \nAverage for July: ${averageForJuly}
+  \n${maxDifferenceForOneDay(cleanData)}
+  \n${maxProfit(cleanData)} \n\n\n` + data;
 
   //Write to a new file named outputData.txt
 
