@@ -9,8 +9,8 @@ const datFileToArray = (str, delimiter = "\t") => {
   const headers = str
     .slice(0, str.replace("\r", "").indexOf("\n"))
     .split(delimiter);
-
-  // slice from \n index + 1 to the end of the text
+  // replace extra white spaces
+  // slice from \n index to the end of the text
   // use split to create an array of each csv value row
   const rows = str
     .replace(/(\n|\n)/gm, "")
