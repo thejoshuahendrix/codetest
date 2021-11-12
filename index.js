@@ -24,9 +24,9 @@ const datFileToArray = (str, delimiter = "\t") => {
   // object properties derived from headers:values
   // the object passed as an element of the array
 
-  const arr = rows.map(function (row) {
+  const arr = rows.map((row) => {
     const values = row.split(delimiter);
-    const el = headers.reduce(function (object, header, index) {
+    const el = headers.reduce((object, header, index) => {
       object[header] = values[index];
       return object;
     }, {});
@@ -91,22 +91,21 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
   let maxProfit = highestDay - lowestDay;
   let dayToBuy = cleanData[lowestDayIndex].Date;
   let dayToSell = cleanData[highestDayIndex].Date;
-  console.log(`Buy on ${dayToBuy} and sell on ${dayToSell} for a max profit of ${maxProfit}`);
-  
-  
-  
+  console.log(
+    `Buy on ${dayToBuy} and sell on ${dayToSell} for a max profit of ${maxProfit}`
+  );
+
   //Add our data to the dataset with our answers at the top
-  
-  rawData = `
+
+  rawData =
+    `
   \nVolume for July: ${volumeForJuly}
   \nAverage for July: ${average}
   \nMax difference for one day: ${maxDif} on ${cleanData[maxDifIndex].Date}
   \nBuy on ${dayToBuy} for a max profit of ${maxProfit} \n\n\n` + data;
-  
-  
+
   //Write to a new file named outputData.txt
-  
-  
+
   fs.writeFile("outputData.txt", rawData, (err) => {
     // Throws an error, you could also catch it here
     if (err) throw err;
@@ -115,4 +114,3 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
     console.log("Saved to outside file!");
   });
 });
-
