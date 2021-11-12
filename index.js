@@ -37,14 +37,14 @@ const datFileToArray = (str, delimiter = "\t") => {
 };
 
 //Define a function to find total volume of a period of time
-const totalVolume = (data, dateParser) => {
-  let volumeForMonth = 0;
+const totalVolumeForDates = (data, dateParser) => {
+  let volumeForDates = 0;
   for (let i = 0; i < data.length; i++) {
     if (data[i].Date.includes(dateParser)) {
-      volumeForMonth += +data[i].Volume;
+      volumeForDates += +data[i].Volume;
     }
   }
-  return volumeForMonth;
+  return volumeForDates;
 };
 
 //Define a function to find the max difference on one day
@@ -58,7 +58,7 @@ const maxDifferenceForOneDay = (data) => {
       maxDifIndex = i;
     }
   }
-  return `Max difference for one day: ${maxDif} on ${data[maxDifIndex].Date}`;
+  return `Max difference for one day: ${maxDif.toFixed(2)} on ${data[maxDifIndex].Date}`;
 };
 //Define a function to find max profit and days to buy and sell
 const maxProfit = (data) => {
@@ -91,10 +91,10 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
   let cleanData = datFileToArray(data);
 
   //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
-  let volumeForJuly = totalVolume(cleanData, "Jul-12");
+  let volumeForJuly = totalVolumeForDates(cleanData, "Jul-12");
 
   //Find the average by dividing the volumeFor July by 31 and log it
-  let averageForJuly = volumeForJuly / 31;
+  let averageForJuly = (volumeForJuly / 31).toFixed(2);
   console.log(`Average for July: ${averageForJuly}`);
 
   //Log our maxDifferenceForOneDay

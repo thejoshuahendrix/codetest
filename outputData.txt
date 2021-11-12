@@ -2,9 +2,9 @@
   
 Volume for July: 573766936
   
-Average for July: 18508610.83870968
+Average for July: 18508610.84
   
-Max difference for one day: 3.9000000000000057 on 22-May-13
+Max difference for one day: 3.90 on 22-May-13
   
 Buy on 25-Jun-12 and sell on 22-May-13 for a max profit of 38.22 
 
