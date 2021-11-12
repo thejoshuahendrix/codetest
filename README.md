@@ -9,5 +9,7 @@ Largest Change in one day
 
 Best day to buy and sell to make max profit
 
+It outputs all of this data to a .txt file
+
 To run just run 
->node index.js
+###`node index.js`
