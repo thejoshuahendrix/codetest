@@ -93,7 +93,7 @@ fs.readFile("datafile.dat", "utf8", (err, data) => {
   //Define our volume for July and grab July's rows then add those rows volume to the volume for July.
   let volumeForJuly = totalVolumeForDates(cleanData, "Jul-12");
 
-  //Find the average by dividing the volumeFor July by 31 and log it
+  //Find the average by dividing the volumeForJuly by 31 and log it
   let averageForJuly = (volumeForJuly / 31).toFixed(2);
   console.log(`Average for July: ${averageForJuly}`);
 
